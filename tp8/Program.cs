@@ -1,4 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿/*
+// See https://aka.ms/new-console-template for more information
 // 1. Cree aleatoriamente N tareas pendientes.
 // 2. Desarrolle una interfaz para mover las tareas pendientes a realizadas.
 // 3. Desarrolle una interfaz para buscar tareas pendientes por descripcion.
@@ -39,8 +40,8 @@ MostrarTareas(pendientes);
 
 
 Console.WriteLine("\nBuscar tareas pendientes por descripcion:");
-// El código #pragma warning disable desactiva la advertencia CS8600 que indica una posible conversión de un valor nulo o posible valor nulo 
-// a un tipo no anulable. Luego, #pragma warning restore restaura las advertencias después de la línea en cuestión.
+// El codigo #pragma warning disable desactiva la advertencia CS8600 que indica una posible conversion de un valor nulo o posible valor nulo 
+// a un tipo no anulable. Luego, #pragma warning restore restaura las advertencias después de la lInea en cuestion.
 #pragma warning disable // Convertir literal nulo o posible valor nulo a tipo no anulable.
 string? buscar = Console.ReadLine();
 List<Tarea> BusquedaResultado = BuscarTareasPendientesPorDescripcion(pendientes, buscar);
@@ -78,8 +79,8 @@ static void MoverTareasPendientesARealizadas(List<Tarea> pendientes, List<Tarea>
     {
         Console.WriteLine($"ID: {tarea.Id}, Descripcion: {tarea.Descripcion}, Duracion: {tarea.Duracion}");
         Console.WriteLine("esta tarea fue realizada? 1- SI 2- NO");
-        // El código #pragma warning disable desactiva la advertencia CS8600 que indica una posible conversión de un valor nulo o posible valor nulo 
-        // a un tipo no anulable. Luego, #pragma warning restore restaura las advertencias después de la línea en cuestión.
+        // El codigo #pragma warning disable desactiva la advertencia CS8600 que indica una posible conversion de un valor nulo o posible valor nulo 
+        // a un tipo no anulable. Luego, #pragma warning restore restaura las advertencias después de la lInea en cuestion.
 #pragma warning disable // Convertir literal nulo o posible valor nulo a tipo no anulable.
         int respuesta = int.Parse(Console.ReadLine());
 #pragma warning restore
@@ -114,8 +115,8 @@ static List<Tarea> BuscarTareasPendientesPorDescripcion(List<Tarea> pendientes, 
     //     }
     // }
     // forma 2 de buscar
-    // El código #pragma warning disable desactiva la advertencia CS8600 que indica una posible conversión de un valor nulo o posible valor nulo 
-    // a un tipo no anulable. Luego, #pragma warning restore restaura las advertencias después de la línea en cuestión.
+    // El codigo #pragma warning disable desactiva la advertencia CS8600 que indica una posible conversion de un valor nulo o posible valor nulo 
+    // a un tipo no anulable. Luego, #pragma warning restore restaura las advertencias después de la lInea en cuestion.
 #pragma warning disable // Convertir literal nulo o posible valor nulo a tipo no anulable.
     BusquedaResultado = pendientes.FindAll(tarea => tarea.Descripcion.ToLower().Contains(buscar.ToLower()));
 #pragma warning restore
@@ -158,4 +159,57 @@ static void GuardarSumarioHorasTrabajadas(int horasTrabajadas)
     }
     Console.WriteLine($"Se ha guardado el sumario de horas trabajadas en el archivo '{nombreArchivo}'.");
 }
+*/
+using System;
+using System.IO;
+using System.Linq;
 
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Ingrese la ruta de la carpeta:");
+        string? rutaCarpeta = Console.ReadLine();
+
+        if (Directory.Exists(rutaCarpeta))
+        {
+            string[] archivo = Directory.GetFiles(rutaCarpeta);
+
+            Console.WriteLine("Archivos encontrados:");
+            foreach (string rutaArchivo in archivo)
+            {
+                string nombreArchivo = Path.GetFileName(rutaArchivo);
+                string extension = Path.GetExtension(rutaArchivo);
+
+                Console.WriteLine($"Nombre: {nombreArchivo}, Extension: {extension}");
+            }
+
+            string csvRuta = Path.Combine(rutaCarpeta, "index.csv");
+            GuardarArchivosCSV(archivo, csvRuta);
+
+            Console.WriteLine($"El listado de archivos se ha guardado en el archivo '{csvRuta}'.");
+        }
+        else
+        {
+            Console.WriteLine("La carpeta ingresada no existe.");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GuardarArchivosCSV(string[] files, string csvRuta)
+    {
+        using (StreamWriter writer = new StreamWriter(csvRuta))
+        {
+            writer.WriteLine("Indice,Nombre,Extension");
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                string nombreArchivo = Path.GetFileName(files[i]);
+                string extension = Path.GetExtension(files[i]);
+
+                writer.WriteLine($"{i + 1},{nombreArchivo},{extension}");
+            }
+        }
+    }
+}
