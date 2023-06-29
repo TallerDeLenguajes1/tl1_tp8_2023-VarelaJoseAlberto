@@ -151,7 +151,7 @@ static int CalcularHorasTrabajadas(List<Tarea> tareas)
 static void GuardarSumarioHorasTrabajadas(int horasTrabajadas)
 {
     string nombreArchivo = "sumario_horas_trabajadas.txt";
-    using (StreamWriter sw = new StreamWriter(nombreArchivo))
+    using (StreamWriter sw = new StreamWriter(nombreArchivo, true))
     {
         sw.WriteLine("Sumario de horas trabajadas");
         sw.WriteLine($"Horas trabajadas: {horasTrabajadas} horas");
